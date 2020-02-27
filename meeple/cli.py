@@ -1,21 +1,44 @@
-from typer import Typer, echo, secho
+import os
+
+import typer
 
 from meeple import __version__ as meeple_version
+from meeple.utils import initialize_meeple
 
 
-app = Typer()
+app = typer.Typer()
 
 
 @app.command("version")
 def get_meeple_version():
-    """Method for getting the version of meeple."""
-    echo(f"meeple: version {meeple_version}")
+    """Get current version of meeple installed."""
+    typer.echo(f"meeple: version {meeple_version}")
 
 
 @app.command("init")
 def init():
-    """Initializes meeple for your project."""
-    secho("meeple_version")
+    """Initialize meeple for your project."""
+    kwargs = {"fg": typer.colors.GREEN, "bold": True}
+    typer.secho(f"Initializing meeple in {os.getcwd()}", **kwargs)
+    initialize_meeple()
+
+
+@app.command("add")
+def add():
+    """Add a user to meeple."""
+    typer.echo("Adding user")
+
+
+@app.command("delete")
+def delete(nickname: str):
+    """Delete a user from meeple."""
+    typer.echo(f"Deleting user ---> {nickname}")
+
+
+@app.command("update")
+def update():
+    """Delete a user from meeple."""
+    typer.echo("Deleting user")
 
 
 def main():

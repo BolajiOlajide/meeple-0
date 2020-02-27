@@ -16,3 +16,4 @@ dist
 
 .mypy_cache
 meeple.json
+sample.py
