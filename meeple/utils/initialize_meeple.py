@@ -1,36 +1,19 @@
 import os
-import json
-from typing import Dict
 
 import typer
 
-from meeple.utils.profile import _add_user_profiles
+from .profile import _add_user_profiles
+from .meeple import _create_meeple
 
 
-def _does_meeple_exist(meeple_path: str) -> bool:
+def _does_meeple_exist() -> bool:
     """
     Check if `meeple.json` exists in the root of the project.
     """
 
+    cwd = os.getcwd()
+    meeple_path = f"{cwd}/meeple.json"
     return os.path.exists(meeple_path)
-
-
-def _create_meeple(
-    meeple_path: str, profiles: Dict[str, Dict[str, str]]
-) -> None:  # noqa: #501
-    """
-    Create `meeple.json` and add the profiles of users to it.
-    """
-
-    try:
-        with open(meeple_path, "w+") as meeple:
-            json.dump(
-                profiles, meeple, indent=4,
-            )
-    except Exception:
-        kwargs = {"fg": typer.colors.RED, "bold": True}
-        typer.secho("unable to create meeple.json", **kwargs)
-        raise typer.Abort()
 
 
 def initialize_meeple() -> None:
@@ -38,11 +21,9 @@ def initialize_meeple() -> None:
     Handle meeple initialization for first time and existing users.
     """
 
-    cwd = os.getcwd()
-    meeple_path = f"{cwd}/meeple.json"
     kwargs = {"fg": typer.colors.GREEN, "bold": True}
 
-    if _does_meeple_exist(meeple_path):
+    if _does_meeple_exist():
         message = "meeple.json exists. Do you want to overwrite?"
         overwrite = typer.confirm(message)
 
@@ -52,7 +33,7 @@ def initialize_meeple() -> None:
     profiles = _add_user_profiles()
 
     if profiles:
-        _create_meeple(meeple_path, profiles)
+        _create_meeple(profiles)
 
         no_of_users = len(profiles.keys())
         users_text = "users" if no_of_users > 1 else "user"
