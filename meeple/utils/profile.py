@@ -6,19 +6,27 @@ import typer
 def _add_user_profiles() -> Dict[str, Dict[str, str]]:
     profiles = {}
 
-    typer.echo("Add users to meeple. Press enter to stop adding users.\n")
+    typer.echo(
+        'Add users to meeple. Press the "ENTER" key to stop adding users.\n'
+    )  # noqa: E501
     kwargs = {"type": str, "default": " ", "show_default": False}
 
     while True:
-        nickname = typer.prompt("What's the nickname of the user?", **kwargs).strip()  # noqa: E501
+        nickname = typer.prompt(
+            "What's the nickname of the user?", **kwargs
+        ).strip()  # noqa: E501
         if not nickname:
             break
 
-        name = typer.prompt("What's the full name of the user?", **kwargs).strip()  # noqa: E501
+        name = typer.prompt(
+            "What's the full name of the user?", **kwargs
+        ).strip()  # noqa: E501
         if not name:
             break
 
-        email = typer.prompt("What's the email address of the user?", **kwargs).strip()  # noqa: E501
+        email = typer.prompt(
+            "What's the email address of the user?", **kwargs
+        ).strip()  # noqa: E501
         if not email:
             break
 
